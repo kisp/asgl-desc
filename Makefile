@@ -1,14 +1,14 @@
 .PHONY:all
 all:
-	pdflatex metric-rhythm.tex
-	bibtex metric-rhythm.aux
-	pdflatex metric-rhythm.tex
-	pdflatex metric-rhythm.tex
+	pdflatex asgl-desc.tex
+	bibtex asgl-desc.aux
+	pdflatex asgl-desc.tex
+	pdflatex asgl-desc.tex
 	echo DONE
 
 .PHONY:check
 check:
-	! grep -i warning: metric-rhythm.log
+	! grep -i warning: asgl-desc.log
 
 clean:
 	rm -f *.pdf *.aux *.blg *.bbl *.log
