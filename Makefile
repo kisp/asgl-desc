@@ -12,3 +12,4 @@ check:
 
 clean:
 	rm -f *.pdf *.aux *.blg *.bbl *.log
+	if [ -n "`git clean -nxd`" ]; then git clean -nxd; exit 1; fi
