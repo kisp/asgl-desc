@@ -45,9 +45,16 @@
 % "llncs.dem" accompanies the document class "llncs.cls".
 %
 
-\toctitle{KSQuant - Complex Score Manipulation in PWGL through Quantization}
-\tocauthor{Score Manipulation in PWGL using KSQuant}
+%\toctitle{KSQuant - Complex Score Manipulation in PWGL through Quantization}
+%\tocauthor{Score Manipulation in PWGL using KSQuant}
 \maketitle
+
+\newcommand{\asgl}{ASGL}
+
+\newcommand{\grsem}{\textit{grounded semantics}}
+\newcommand{\prsem}{\textit{preferred semantics}}
+\newcommand{\stsem}{\textit{stable semantics}}
+\newcommand{\cosem}{\textit{complete semantics}}
 
 \begin{abstract}
   This paper presents the recent developments dealing with our
@@ -65,13 +72,35 @@
   all score attributes.
 \end{abstract}
 
+\section{Introduction}\label{sec:introduction}
 
-\section{Something about ASGL}
+The plan of the paper is as follows. Section~\ref{sec:components}
+presents libraries on which \asgl{} is built. Then, the realisation of
+the computational tasks is exemplified w.r.t. \grsem{} in Section~
+\ref{sec:grounded} and \prsem{} in Section~
+\ref{sec:preferred}. Section~\ref{sec:reductions} details reductions
+of queries performed by \asgl{} and Section~\ref{sec:conclusion} gives
+a brief conclusion.
+
+\section{System components}\label{sec:components}
+
+\section{Grounded semantics}\label{sec:grounded}
+
+\section{Preferred semantics}\label{sec:preferred}
+
+\section{Reductions}\label{sec:reductions}
+
+\section{Conclusion}\label{sec:conclusion}
+
+
+\section{Sandbox}\label{sec:sandbox}
 ASGL\cite{asgl} uses GECODE\cite{gecode} and ECL\cite{ecl}.
 
 
+first-class computation spaces\cite{Engines:97}.
 
-\section{Introduction}\label{sec:introduction}
+
+\section{Introduction}\label{old:sec:introduction}
 Many different text-based formats have been developed for representing
 the information in a musical score. Some typical examples are CMN,
 GUIDO, MusiXTEX \cite{agon}, GNU LilyPond\cite{agon}, and
@@ -101,7 +130,7 @@ can realize besides quantizing tasks also other complex patch-level
 operations such as splitting and merging scores without loosing the
 connection to other score parameters.
 
-\section{KSQuant  Format}\label{KSQuant format}
+\section{KSQuant  Format}\label{old:KSQuant format}
 KSQuant operates with a format called 'simple-format'. Instead of
 using a tree-like structure like in ENP, events start at a certain
 time point and their duration is specified by the time that passes
@@ -119,10 +148,10 @@ To this purpose, KSQuant provides mainly two conversion functions:
   a lot of additional arguments to provide for information that is
   actually missing in the simple-format, such as
   time-signatures. Other parameters tune the quantization process that
-  might need to be applied (Sect.~\ref{KSQuant Quantitizer}).
+  might need to be applied (Sect.~\ref{old:KSQuant Quantitizer}).
 \end{itemize}
 
-As an example, let us consider the score in Fig.~\ref{fig:enp-ex1}. It
+As an example, let us consider the score in Fig.~\ref{old:fig:enp-ex1}. It
 is quite minimal, but demonstrates some important properties of the
 ENP format. Concerning its rhythmical expressiveness, there is clearly
 more information inherent in the specific notation of the two
@@ -138,7 +167,7 @@ notational attributes. The accent is added to an entire chord, the
   \caption{A simple score using ENP that nevertheless demonstrates its
     ability to add notational attributes to a skeleton based on rhythm
     and pitch.}
-  \label{fig:enp-ex1}
+  \label{old:fig:enp-ex1}
 \end{figure}
 
 The textual description in ENP-score-notation format of this score is
@@ -203,7 +232,7 @@ is. This allows the conversion processes to be reversible in the
 attribute domain, while being subject to change in the rhythmical
 domain in the case of \texttt{simple2score}.
 
-\section{KSQuant  as a Quantizer}\label{KSQuant Quantitizer}
+\section{KSQuant  as a Quantizer}\label{old:KSQuant Quantitizer}
 There has been a lot of ongoing research about Rhythm Quantization,
 especially in the context of Automatic Music Transcription
 \cite{agon}.  Starting from the naive model of grid
@@ -225,7 +254,7 @@ tree representation.
 
 Nevertheless, the quantizer of KSQuant, as present in the function
 \texttt{simple2score}, features a number of parameters, whose default
-settings are shown in Fig.~\ref{fig:enp-ex1}.  Most important
+settings are shown in Fig.~\ref{old:fig:enp-ex1}.  Most important
 is the set of permitted divisions, $PermDivs$ that is for convenience
 controlled by the parameters $MaxDiv$ and $ForbiddenDivs$:
 $$PermDivs = \{d:d \in \{1,2, ..., MaxDiv \}, d \notin ForbiddenDivs\}$$
@@ -236,7 +265,7 @@ time signature) by a simple heuristic employing the mean squared error
 of onset deviation in that group.  The level of control provided by
 $PermDivs$ often proves to be too limited. Therefore the user can
 still finetune the result using the argument
-$ForbiddenPatts$. Fig.~\ref{fig:enp-ex1} shows an example where the first
+$ForbiddenPatts$. Fig.~\ref{old:fig:enp-ex1} shows an example where the first
 measure is quantized using only $MaxDiv$ = 8 (i.e. $ForbiddenPatts$ is
 nil). The second measure is, however, quantized with $ForbiddenPatts$
 set equal to \texttt{((1/16 3/32 3/32))} that forces the quantizer to
@@ -256,14 +285,14 @@ change the second beat.
 %%   \label{fig:fig3}
 %% \end{figure}
 
-\section{Score Manipulation}\label{Score Manipulation}
+\section{Score Manipulation}\label{old:Score Manipulation}
 This section enumerates some examples that demonstrate how KSQuant
 can be used to manipulate and build metrical scores. Often these
 manipulations would be tedious to perform using the standard
 ENP-score-notation format or other score building tools provided by
 PWGL.
 
-Fig.~\ref{fig:enp-ex1} gives a typical quantizing patch example where
+Fig.~\ref{old:fig:enp-ex1} gives a typical quantizing patch example where
 onset-times and pitch information is given in simple-format to the
 \texttt{simple2score} box. The result is fed in turn to a
 \texttt{Score-Editor} box. Note that the simple-format allows to
@@ -278,7 +307,7 @@ information is preserved in the \texttt{simple2score} transformation.
 %%   \label{fig:fig4}
 %% \end{figure}
 
-In Fig.~\ref{fig:enp-ex1}, in turn, we have two input scores that are first merged to
+In Fig.~\ref{old:fig:enp-ex1}, in turn, we have two input scores that are first merged to
 a single voice (to the left), and then appended resulting in a two
 measure score (to the right). We use here two KSQuant library boxes,
 \texttt{simple-merge} and \texttt{simple-append}, that accept as
@@ -288,7 +317,7 @@ The append case in this example is trivial due to the fact that the
 input items are entire bars. This operation could be easily performed
 in other score editors, e.g. in Sibelius\cite{agon}. The more
 complex case of joining multiple cells of varying duration is shown in
-Fig.~\ref{fig:enp-ex1}. There is no need to mention that for a composer
+Fig.~\ref{old:fig:enp-ex1}. There is no need to mention that for a composer
 this is quite a fundamental operation. Nevertheless -- in the context
 of n-tuplets -- this has not been a well supported feature, e.g. by
 Sibelius\footnote{Typically an error message would appear telling the
@@ -298,7 +327,7 @@ Sibelius\footnote{Typically an error message would appear telling the
 
 A similar problem arises, when we need to change the time-signatures
 of a given passage. Again the presence of n-tuplets poses difficulties
-when they need to be split across bar lines. Fig.~\ref{fig:enp-ex1}
+when they need to be split across bar lines. Fig.~\ref{old:fig:enp-ex1}
 demonstrates this case by changing the time-signature from
 \texttt{4/4} to \texttt{3/8}. This leads to splitting the first
 triplet and the second sixtuplet.
@@ -326,7 +355,7 @@ triplet and the second sixtuplet.
 %%   \label{fig:fig8}
 %% \end{figure}
 
-Our final example, shown in Fig.~\ref{fig:enp-ex1}, manipulates an input score by
+Our final example, shown in Fig.~\ref{old:fig:enp-ex1}, manipulates an input score by
 scaling all offset-times by \texttt{5/8} (see the \texttt{scale} input of the
 \texttt{simple2score} box). Note that also here the micro-tonal pitch
 material is preserved.
