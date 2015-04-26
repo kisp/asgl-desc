@@ -49,8 +49,6 @@
 %\tocauthor{Score Manipulation in PWGL using KSQuant}
 \maketitle
 
-\newcommand{\asgl}{ASGL}
-
 \newcommand{\grsem}{\textit{grounded semantics}}
 \newcommand{\prsem}{\textit{preferred semantics}}
 \newcommand{\stsem}{\textit{stable semantics}}
@@ -75,14 +73,77 @@
 \section{Introduction}\label{sec:introduction}
 
 The plan of the paper is as follows. Section~\ref{sec:components}
-presents libraries on which \asgl{} is built. Then, the realisation of
+presents libraries on which ASGL is built. Then, the realisation of
 the computational tasks is exemplified w.r.t. \grsem{} in Section~
 \ref{sec:grounded} and \prsem{} in Section~
 \ref{sec:preferred}. Section~\ref{sec:reductions} details reductions
-of queries performed by \asgl{} and Section~\ref{sec:conclusion} gives
+of queries performed by ASGL and Section~\ref{sec:conclusion} gives
 a brief conclusion.
 
 \section{System components}\label{sec:components}
+
+GECODE (generic constraint development environment)~\cite{gecode} is a
+toolkit for developing constraint-based systems and applications. It
+is an efficient, generic CSP solver, featuring among others finite
+domain integer variables and finite set variables and constraints (see
+Section~\ref{sec:preferred}). A C++ library that can be easily
+integrated with other systems and which is also very open to be
+extended by user code. For instance, it is possible to program new
+search engines that can be regarded \textit{en par} to the already
+built in ones, such as depth-first search and branch-and-bound search,
+without requiring the user to dive into low-level code.
+
+The abstraction that new search engines can be programmed with is
+called computation space \cite{Engines:97}. A computation space, which
+is a first-class citizen, encapsulates a speculative computation
+involving constraints. New constraints can be posted on a
+space. Another operation is to wait for a space to become stable,
+i.e. propagation reaches a fixpoint (see Section~\ref{sec:grounded}).
+
+ECL~\cite{ecl} is an implementation of Common
+Lisp~\cite{Steele:1990:CLL} that features a byte-code compiler, but
+can also compile to C code, which is then further compiled by the
+hosts native compiler. This allows for easy integration with C or C++
+libraries. While bindings to such libraries are usually generated with
+a tool such as SWIG~\cite{swig}, ECL has a feature that makes this
+unnecessary. It allows the user by the use of an inline construct
+\texttt{c-inline} to directly emit fragments of C or C++ code as part
+of a Lisp function defintion. These fragments are placed (almost)
+verbatim within the generated C code.
+
+As an example, this allows for the definition of a Lisp function
+\texttt{space-status} for the beforementioned operation on a space,
+which calls the underlying GECODE method \texttt{status}.
+
+\begin{scriptsize}
+\begin{verbatim}
+(defun space-status (space)
+  (let ((status
+         (ffi:c-inline (space) (:pointer-void) :int
+                       "{
+// wait for space to become stable, then retrieve status
+Gecode::SpaceStatus status = (((Gecode::Space*)(#0))->status());
+
+switch (status) {
+case Gecode::SS_FAILED: @(return 0) = 1; break;
+case Gecode::SS_SOLVED: @(return 0) = 2; break;
+case Gecode::SS_BRANCH: @(return 0) = 3; break;
+default: @(return 0) = 100; break;
+}
+}")))
+    (ecase status
+      (1 :failed)
+      (2 :solved)
+      (3 :branch))))
+\end{verbatim}
+\end{scriptsize}
+
+ASGL makes use of typical Lisp features, such as CLOS, the Common Lisp
+Object System, macros (see Section~\ref{sec:reductions}) and
+first-class functions to orchestrate on a high-level the parsing of
+the command-line arguments and input file, the creation and
+appropriately constraining of a computation space, the invocation of a
+search engine and then, finally, the formatting of the output.
 
 \section{Grounded semantics}\label{sec:grounded}
 
