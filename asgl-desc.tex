@@ -147,6 +147,15 @@ search engine and then, finally, the formatting of the output.
 
 \section{Grounded semantics}\label{sec:grounded}
 
+Exactly one grounded extension exists. It contains all the arguments
+which are not defeated, as well as that arguments which are directly
+or indirectly defended by non-defeated arguments. An algorithm to
+compute this extension in linear time is given by
+Caminada~\cite{Modgil2009}; it progresses iteratively until a fixpoint
+is reached.
+
+In ASGL, no special purpose algorithm for \grsem{} has been implemented.
+
 \section{Preferred semantics}\label{sec:preferred}
 
 \section{Reductions}\label{sec:reductions}
@@ -159,6 +168,8 @@ ASGL\cite{asgl} uses GECODE\cite{gecode} and ECL\cite{ecl}.
 
 
 first-class computation spaces\cite{Engines:97}.
+
+proof-theories \cite{Modgil2009}
 
 
 \section{Introduction}\label{old:sec:introduction}
