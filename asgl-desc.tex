@@ -49,10 +49,10 @@
 %\tocauthor{Score Manipulation in PWGL using KSQuant}
 \maketitle
 
-\newcommand{\grsem}{\textit{grounded semantics}}
-\newcommand{\prsem}{\textit{preferred semantics}}
-\newcommand{\stsem}{\textit{stable semantics}}
-\newcommand{\cosem}{\textit{complete semantics}}
+\newcommand{\grsem}{grounded semantics}
+\newcommand{\prsem}{preferred semantics}
+\newcommand{\stsem}{stable semantics}
+\newcommand{\cosem}{complete semantics}
 
 \begin{abstract}
   This paper presents the recent developments dealing with our
@@ -107,13 +107,13 @@ hosts native compiler. This allows for easy integration with C or C++
 libraries. While bindings to such libraries are usually generated with
 a tool such as SWIG~\cite{swig}, ECL has a feature that makes this
 unnecessary. It allows the user by the use of an inline construct
-\texttt{c-inline} to directly emit fragments of C or C++ code as part
+\textit{c-inline} to directly emit fragments of C or C++ code as part
 of a Lisp function defintion. These fragments are placed (almost)
 verbatim within the generated C code.
 
 As an example, this allows for the definition of a Lisp function
-\texttt{space-status} for the beforementioned operation on a space,
-which calls the underlying GECODE method \texttt{status}.
+\textit{space-status} for the beforementioned operation on a space,
+which calls the underlying GECODE method \textit{status}.
 
 \begin{scriptsize}
 \begin{verbatim}
@@ -154,7 +154,15 @@ compute this extension in linear time is given by
 Caminada~\cite{Modgil2009}; it progresses iteratively until a fixpoint
 is reached.
 
-In ASGL, no special purpose algorithm for \grsem{} has been implemented.
+In ASGL, no special purpose algorithm for \grsem{} has been
+implemented. A computation space is created as for the other semantics
+with $|A|$~boolean variables. ASGL uses an extension-based encoding
+for solutions. Constraints are then posted on the space and the status
+is queried by \textit{space-status}, which first waits for the space
+to become stable, i.e. propagation to reach a fixpoint. In this
+setting, the resulting status of a space will never be \textit{failed}
+and subsequently, the grounded extension can be read from the space by
+including all arguments whose corresponding variable is \textit{true}.
 
 \section{Preferred semantics}\label{sec:preferred}
 
