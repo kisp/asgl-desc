@@ -72,23 +72,36 @@
 
 \section{Introduction}\label{sec:introduction}
 
+ASGL is a solver for argumentation semantics. Given an argumentation
+framework $AF = (Ar, att)$, answers to queries w.r.t. grounded,
+complete, preferred, and stable semantics can be
+computed. Specifically, for each semantic, ASGL allows to enumerate
+one or all extensions and to report on the status of an argument,
+while taking either a skeptical or a credulous point of view.
+
+ASGL is mainly written in Common Lisp and CLOS~\cite{Steele:1990:CLL},
+with some parts written in C++, which is used in the area of low-level
+parsing of the input file and, more importantly, to interface to
+GECODE, a generic CSP solver library, which is used in ASGL as a
+backend.
+
 The plan of the paper is as follows. Section~\ref{sec:components}
-presents libraries on which ASGL is built. Then, the realisation of
-the computational tasks is exemplified w.r.t. \grsem{} in Section~
-\ref{sec:grounded} and \prsem{} in Section~
-\ref{sec:preferred}. Section~\ref{sec:reductions} details reductions
-of queries performed by ASGL and Section~\ref{sec:conclusion} gives
-a brief conclusion.
+presents GECODE and ECL, the Common Lisp implementation, on which ASGL
+is built. Then, the realisation of the computational tasks is
+exemplified w.r.t. \grsem{} in Section~\ref{sec:grounded} and
+\prsem{} in Section~\ref{sec:preferred}. Section~\ref{sec:reductions}
+details reductions of queries performed by ASGL and
+Section~\ref{sec:conclusion} gives a brief conclusion.
 
-\section{System components}\label{sec:components}
+\section{System Components}\label{sec:components}
 
-GECODE (generic constraint development environment)~\cite{gecode} is a
-toolkit for developing constraint-based systems and applications. It
-is an efficient, generic CSP solver, featuring among others finite
-domain integer variables and finite set variables and constraints (see
-Section~\ref{sec:preferred}). A C++ library that can be easily
-integrated with other systems and which is also very open to be
-extended by user code. For instance, it is possible to program new
+GECODE~\cite{gecode}, the generic constraint development environment,
+is a toolkit for developing constraint-based systems and
+applications. It is an efficient, generic CSP solver, featuring among
+others finite domain integer variables and finite set variables and
+constraints (see Section~\ref{sec:preferred}). A C++ library that can
+be easily integrated with other systems and which is also very open to
+be extended by user code. For instance, it is possible to program new
 search engines that can be regarded \textit{en par} to the already
 built in ones, such as depth-first search and branch-and-bound search,
 without requiring the user to dive into low-level code.
@@ -100,16 +113,15 @@ involving constraints. New constraints can be posted on a
 space. Another operation is to wait for a space to become stable,
 i.e. propagation reaches a fixpoint (see Section~\ref{sec:grounded}).
 
-ECL~\cite{ecl} is an implementation of Common
-Lisp~\cite{Steele:1990:CLL} that features a byte-code compiler, but
-can also compile to C code, which is then further compiled by the
-hosts native compiler. This allows for easy integration with C or C++
-libraries. While bindings to such libraries are usually generated with
-a tool such as SWIG~\cite{swig}, ECL has a feature that makes this
-unnecessary. It allows the user by the use of an inline construct
-\textit{c-inline} to directly emit fragments of C or C++ code as part
-of a Lisp function defintion. These fragments are placed (almost)
-verbatim within the generated C code.
+ECL~\cite{ecl} is an implementation of Common Lisp that features a
+byte-code compiler, but can also compile to C code, which is then
+further compiled by the hosts native compiler. This allows for easy
+integration with C or C++ libraries. While bindings to such libraries
+are usually generated with a tool such as SWIG~\cite{swig}, ECL has a
+feature that makes this unnecessary. It allows the user by the use of
+an inline construct \textit{c-inline} to directly emit fragments of C
+or C++ code as part of a Lisp function defintion. These fragments are
+placed (almost) verbatim within the generated C code.
 
 As an example, this allows for the definition of a Lisp function
 \textit{space-status} for the beforementioned operation on a space,
@@ -145,7 +157,7 @@ the command-line arguments and input file, the creation and
 appropriately constraining of a computation space, the invocation of a
 search engine and then, finally, the formatting of the output.
 
-\section{Grounded semantics}\label{sec:grounded}
+\section{Grounded Semantics}\label{sec:grounded}
 
 Exactly one grounded extension exists. It contains all the arguments
 which are not defeated, as well as that arguments which are directly
@@ -156,7 +168,7 @@ is reached.
 
 In ASGL, no special purpose algorithm for \grsem{} has been
 implemented. A computation space is created as for the other semantics
-with $|A|$~boolean variables: ASGL uses an extension-based encoding
+with $|Ar|$~boolean variables: ASGL uses an extension-based encoding
 for solutions. Constraints are then posted on the space and the status
 is queried by \textit{space-status}, which first waits for the space
 to become stable, i.e. propagation to reach a fixpoint. Subsequently,
@@ -164,7 +176,7 @@ the grounded extension can be read from the space by including all
 arguments whose corresponding variables are instantiated to
 \textit{true}.
 
-\section{Preferred semantics}\label{sec:preferred}
+\section{Preferred Semantics}\label{sec:preferred}
 
 \section{Reductions}\label{sec:reductions}
 

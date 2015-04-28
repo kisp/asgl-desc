@@ -7,3 +7,4 @@
   provides, what design choices were made and what lessons were
   learned. The description should also summarise how participants have
   addressed the competition tasks.
+* add bib in first introduction paragraph for AF defs
