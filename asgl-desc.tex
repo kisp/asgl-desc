@@ -72,7 +72,7 @@ argumentation framework $AF = (Ar, att)$, answers to queries with
 respect to grounded, complete, preferred, and stable semantics can be
 computed. Specifically, for each semantic, ASGL allows to enumerate
 one or all extensions and to report on the status of an argument,
-while taking either a skeptical or a credulous point of view.
+while taking either a credulous or a skeptical point of view.
 
 ASGL is mainly written in Common Lisp and CLOS~\cite{Steele:1990:CLL},
 with some parts written in C++, which is used in the area of low-level
@@ -219,11 +219,35 @@ information gained from previous searches.
 
 \section{Reductions}\label{sec:reductions}
 
+ASGL allows the product of grounded, complete, preferred, and stable
+semantics and enumeration of some or all extensions, credulous and
+skeptical inference, in total 16 different problems to be solved. In
+this problem space numerous reductions are possible. ASGL currently
+makes use of the following rules, which are -- thanks to Lisp macros
+-- written exactly as given here in the source code:
+
 \begin{itemize}
 \item \texttt{(translate (:se :co) -> (:se :gr))}
 \item \texttt{(translate (:ds :co) -> (:ds :gr))}
 \item \texttt{(translate (:dc :pr) -> (:dc :co))}
 \end{itemize}
+
+The first and second rule are quite simple: 1. When asked for some
+complete extension, one could simply compute the grounded
+extension. 2. a) If an argument is included in all complete extensions,
+it is also included in the grounded extension. b) The grounded extension
+is a subset of all complete extensions, therefore an argument included
+in the grounded extension is included in all complete extensions.
+
+3. The third rule is more subtle. It states that whether an argument
+is included in some preferred extension can be reduced to the question
+of whether the argument is included in some complete extension. This
+can be shown like this: a) If an argument is included in some
+preferred extension, it is also included in some complete
+extension. b) If an argument is included in some complete extension,
+this extension is either maximal -- a preferred extension or a
+preferred extension must exist that is a superset of the complete
+extension, hence it includes the argument.
 
 \section{Conclusion}\label{sec:conclusion}
 
