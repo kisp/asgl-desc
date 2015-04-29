@@ -49,11 +49,6 @@
 %\tocauthor{Score Manipulation in PWGL using KSQuant}
 \maketitle
 
-\newcommand{\grsem}{grounded semantics}
-\newcommand{\prsem}{preferred semantics}
-\newcommand{\stsem}{stable semantics}
-\newcommand{\cosem}{complete semantics}
-
 \begin{abstract}
   This paper presents the recent developments dealing with our
   metrical score representation format and how it can be used to
@@ -73,8 +68,8 @@
 \section{Introduction}\label{sec:introduction}
 
 ASGL is a solver for argumentation semantics. Given an argumentation
-framework $AF = (Ar, att)$, answers to queries w.r.t. grounded,
-complete, preferred, and stable semantics can be
+framework $AF = (Ar, att)$, answers to queries with respect to
+grounded, complete, preferred, and stable semantics can be
 computed. Specifically, for each semantic, ASGL allows to enumerate
 one or all extensions and to report on the status of an argument,
 while taking either a skeptical or a credulous point of view.
@@ -88,9 +83,10 @@ backend.
 The plan of the paper is as follows. Section~\ref{sec:components}
 presents GECODE and ECL, the Common Lisp implementation, on which ASGL
 is built. Then, the realisation of the computational tasks is
-exemplified w.r.t. \grsem{} in Section~\ref{sec:grounded} and
-\prsem{} in Section~\ref{sec:preferred}. Section~\ref{sec:reductions}
-details reductions of queries performed by ASGL and
+exemplified with respect to grounded semantics in
+Section~\ref{sec:grounded} and preferred semantics in
+Section~\ref{sec:preferred}. Section~\ref{sec:reductions} details
+reductions of queries performed by ASGL and
 Section~\ref{sec:conclusion} gives a brief conclusion.
 
 \section{System Components}\label{sec:components}
@@ -166,17 +162,48 @@ compute this extension in linear time is given by
 Caminada~\cite{Modgil2009}; it progresses iteratively until a fixpoint
 is reached.
 
-In ASGL, no special purpose algorithm for \grsem{} has been
+In ASGL, no special purpose algorithm for grounded semantics has been
 implemented. A computation space is created as for the other semantics
-with $|Ar|$~boolean variables: ASGL uses an extension-based encoding
-for solutions. Constraints are then posted on the space and the status
-is queried by \textit{space-status}, which first waits for the space
-to become stable, i.e. propagation to reach a fixpoint. Subsequently,
-the grounded extension can be read from the space by including all
-arguments whose corresponding variables are instantiated to
-\textit{true}.
+with an array of $|Ar|$~boolean variables: ASGL uses an
+extension-based encoding for solutions. Constraints are then posted on
+the space and the status is queried by \textit{space-status}, which
+first waits for the space to become stable, i.e. propagation to reach
+a fixpoint. Subsequently, the grounded extension can be read from the
+space by including all arguments whose corresponding variables are
+instantiated to \textit{true}.
 
 \section{Preferred Semantics}\label{sec:preferred}
+
+The preferred extensions are all those complete extensions that are
+maximal with respect to set inclusion. In the general case, more than
+one preferred extension exists.
+
+The task of computing some preferred extension is implemented in ASGL
+like a classical optimization problem with branch-and-bound search. As
+soon as one solution has been found, all further solutions are
+constrained to be better than the current solution. If no more
+solutions can be found, the current solution is maximal.
+
+In the case of preferred extensions, an extension is better than
+another iff it is a proper superset of the other. In order to allow
+this kind of constraint to be posted, ASGL makes use of an additional
+set variable that represents the extension as a set. For consistency,
+the set variable is connected to the array of boolean variables by a
+channeling constraint. A branch-and-bound search engine is already
+part of standard GECODE. This allows for a straightforward
+implementation of this strategy. The search for a maximal solution is
+further supported by a value heuristic: When a choice needs to be
+made, an argument is considered to be included first, before it is
+considered to be excluded.
+
+No built-in search engine in GECODE can be used to efficiently
+enumerate all preferred extensions. In the development of ASGL, an
+attempt has been made to implement a \textit{multi-bab-engine} for
+this purpose. This engine essentially keeps a master computation space
+that stays unmodified by individual searches. Only a clone of the
+master is passed to the built-in branch-and-bound search
+engine. Whenever this engine finds a preferred extension, the master
+is constrained not to be a subset of this extension.
 
 \section{Reductions}\label{sec:reductions}
 
