@@ -203,9 +203,28 @@ this purpose. This engine essentially keeps a master computation space
 that stays unmodified by individual searches. Only a clone of the
 master is passed to the built-in branch-and-bound search
 engine. Whenever this engine finds a preferred extension, the master
-is constrained not to be a subset of this extension.
+is constrained not to be a subset of this extension and the process
+repeats.
+
+Unfortunately, this strategy turned out to be slower than filtering
+all complete extensions for maximality -- at least for small input
+graphs. In the current version of ASGL, this work has therefore been
+abandoned in favor of this more simple approach. We expect that
+repeatedly restarting from the master space incurred too much overhead
+by repeating work already performed in previous invocations. This
+effect could possibly be mitigated by utilizing no-good learning or by
+employing more sophisticated variable ordering heuristics, such as
+accumulated failure count or activity that build on
+information gained from previous searches.
 
 \section{Reductions}\label{sec:reductions}
+
+
+\begin{itemize}
+\item \texttt{(translate (:se :co) -> (:se :gr))}
+\item \texttt{(translate (:ds :co) -> (:ds :gr))}
+\item \texttt{(translate (:dc :pr) -> (:dc :co))}
+\end{itemize}
 
 \section{Conclusion}\label{sec:conclusion}
 
