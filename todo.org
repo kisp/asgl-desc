@@ -1,13 +1,13 @@
-* benutze die richtige adresse, auch wie in email von b
+* DONE benutze die richtige adresse, auch wie in email von b
   http://www.fernuni-hagen.de/wbs/contact.html
-* Abstract: no more than 200 words. (M-=)
+* DONE Abstract: no more than 200 words. (M-=)
 * Description
   Description: It should contain the details of the system, including
   the system architecture, which features or functions the system
   provides, what design choices were made and what lessons were
   learned. The description should also summarise how participants have
   addressed the competition tasks.
-* add bib in first introduction paragraph for AF defs
-* spelling: channeling constraint
-* number rules in reductions with 1. 2. 3.
-* expression featuring among others
+* DONE add bib in first introduction paragraph for AF defs
+* DONE spelling: channeling constraint
+* DONE number rules in reductions with 1. 2. 3.
+* DONE expression featuring among others
