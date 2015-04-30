@@ -10,3 +10,4 @@
 * add bib in first introduction paragraph for AF defs
 * spelling: channeling constraint
 * number rules in reductions with 1. 2. 3.
+* expression featuring among others
