@@ -70,10 +70,10 @@ while taking either a credulous or a skeptical point of
 view~\cite{Modgil2009}.
 
 ASGL is mainly written in Common Lisp and CLOS~\cite{Steele:1990:CLL},
-with some parts written in C++, which is used in the area of low-level
-parsing of the input file and, more importantly, to interface to
-GECODE~\cite{gecode}, a generic CSP solver library, which is used in ASGL as a
-backend.
+with some parts written in C++, which is used for low-level parsing of
+the input file and, more importantly, to interface to
+GECODE~\cite{gecode}, a generic CSP solver library, which is used in
+ASGL as a backend.
 
 The plan of the paper is as follows. Section~\ref{sec:components}
 presents GECODE and ECL~\cite{ecl}, the Common Lisp implementation, on
@@ -84,13 +84,13 @@ Section~\ref{sec:preferred}. Finally, Section~\ref{sec:reductions}
 details reductions of queries performed by ASGL.
 \section{System Components}\label{sec:components}
 
-GECODE, the generic constraint development environment,
-is a toolkit for developing constraint-based systems and
-applications. It is an efficient, generic CSP solver, featuring among
-others finite domain integer variables and finite set variables and
-constraints (see Section~\ref{sec:preferred}). A C++ library that can
-be easily integrated with other systems and which is also very open to
-be extended by user code. For instance, it is possible to program new
+GECODE, the generic constraint development environment, is a toolkit
+for developing constraint-based systems and applications. It is an
+efficient, generic CSP solver, featuring among others finite domain
+integer variables and finite set variables and constraints (see
+Section~\ref{sec:preferred}). Conceived as a C++ library, it can be
+easily integrated with other systems and it is designed to be open for
+extension by user code.  For instance, it is possible to program new
 search engines that can be regarded \textit{en par} to the already
 built in ones, such as depth-first search and branch-and-bound search,
 without requiring the user to dive into low-level code.
@@ -100,7 +100,8 @@ called computation space \cite{Engines:97}. A computation space, which
 is a first-class citizen, encapsulates a speculative computation
 involving constraints. New constraints can be posted on a
 space. Another space operation is to wait for it to become stable,
-i.e. propagation reaches a fixpoint (see Section~\ref{sec:grounded}).
+i.e. for propagation to reach a fixpoint (see
+Section~\ref{sec:grounded}).
 
 ECL is an implementation of Common Lisp that features a
 byte-code compiler, but can also compile to C code, which is then
