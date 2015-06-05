@@ -13,8 +13,7 @@
 \mainmatter  % start of an individual contribution
 
 % first the title is needed
-\title{ASGL}
-\subtitle{Argumentation Semantics in Gecode and Lisp}
+\title{ASGL: Argumentation Semantics in Gecode and Lisp}
 
 % a short form should be given in case it is too long for the running head
 %\titlerunning{Score Manipulation in PWGL using KSQuant}
@@ -64,7 +63,7 @@
 ASGL~\cite{asgl} is a solver for argumentation semantics. Given an
 argumentation framework $AF = (Ar, att)$, answers to queries with
 respect to grounded, complete, preferred, and stable semantics can be
-computed. Specifically, for each semantic, ASGL allows to enumerate
+computed. Specifically, for each semantics, ASGL allows to enumerate
 one or all extensions and to report on the status of an argument,
 while taking either a credulous or a skeptical point of
 view~\cite{Modgil2009}.
@@ -76,7 +75,7 @@ GECODE~\cite{gecode}, a generic CSP solver library, which is used in
 ASGL as a backend.
 
 The plan of the paper is as follows. Section~\ref{sec:components}
-presents GECODE and ECL~\cite{ecl}, the Common Lisp implementation, on
+presents GECODE and ECL~\cite{ecl}, the Common Lisp implementation on
 which ASGL is built. Then, the realization of the computational tasks
 is exemplified with respect to grounded semantics in
 Section~\ref{sec:grounded} and preferred semantics in
@@ -92,7 +91,7 @@ Section~\ref{sec:preferred}). Conceived as a C++ library, it can be
 easily integrated with other systems and it is designed to be open for
 extension by user code.  For instance, it is possible to program new
 search engines that can be regarded \textit{en par} to the already
-built in ones, such as depth-first search and branch-and-bound search,
+built-in ones, such as depth-first search and branch-and-bound search,
 without requiring the user to dive into low-level code.
 
 The abstraction that new search engines can be programmed with is
@@ -105,7 +104,7 @@ Section~\ref{sec:grounded}).
 
 ECL is an implementation of Common Lisp that features a
 byte-code compiler, but can also compile to C code, which is then
-further compiled by the hosts native compiler. This allows for easy
+further compiled by the host's native compiler. This allows for easy
 integration with C or C++ libraries. While bindings to such libraries
 are usually generated with a tool such as SWIG~\cite{swig}, ECL has a
 feature that makes this unnecessary. It allows the user by the use of
@@ -142,7 +141,7 @@ default: @(return 0) = 100; break;
 
 ASGL makes use of typical Lisp features, such as CLOS, the Common Lisp
 Object System, macros (see Section~\ref{sec:reductions}) and
-first-class functions to orchestrate on a high-level the parsing of
+first-class functions to orchestrate on a high level the parsing of
 the command-line arguments and input file, the creation and
 appropriately constraining of a computation space, the invocation of a
 search engine and then, finally, the formatting of the output.
@@ -169,8 +168,8 @@ instantiated to \textit{true}.
 \section{Preferred Semantics}\label{sec:preferred}
 
 The preferred extensions are all those complete extensions that are
-maximal with respect to set inclusion. In the general case, more than
-one preferred extension exists.
+maximal with respect to set inclusion. In general, one or more
+preferred extensions may exist.
 
 The task of computing some preferred extension is implemented in ASGL
 like a classical optimization problem with branch-and-bound search. As
